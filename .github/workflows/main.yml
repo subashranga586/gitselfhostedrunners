@@ -8,13 +8,16 @@ jobs:
     runs-on: [self-hosted]
     name: Subash Runner Job
     steps:
-      - name: Allow PowerShell script execution
+      - name: Confirm runner is working on Windows with policy update
         shell: powershell
-        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force
-
-      - name: Confirm runner is working
         run: |
-          echo "Hello from Subash's self-hosted runner!"
-          echo "Running as: $USER"
+          try {
+            Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force -ErrorAction Stop
+            Write-Host "Execution policy set successfully."
+          } catch {
+            Write-Host "Failed to set execution policy. Error: $_"
+          }
+          Write-Host "Hello from Subash's self-hosted runner!"
+          Write-Host "Running as: $env:USERNAME"
           hostname
-          date
+          Get-Date

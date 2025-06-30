@@ -1,0 +1,16 @@
+name: Test Self-Hosted Runner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  self-hosted-job:
+    runs-on: [self-hosted]
+    name: Subash Runner Job
+    steps:
+      - name: Confirm runner is working
+        run: |
+          echo "Hello from Subash's self-hosted runner!"
+          echo "Running as: $USER"
+          hostname
+          date

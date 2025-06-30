@@ -8,6 +8,10 @@ jobs:
     runs-on: [self-hosted]
     name: Subash Runner Job
     steps:
+      - name: Allow PowerShell script execution
+        shell: powershell
+        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force
+
       - name: Confirm runner is working
         run: |
           echo "Hello from Subash's self-hosted runner!"

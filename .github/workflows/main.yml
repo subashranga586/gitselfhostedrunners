@@ -3,7 +3,7 @@ name: Test Self-Hosted Runner
 on:
   workflow_dispatch:
 
-jobs:
+jobs: 
   self-hosted-job:
     runs-on: [self-hosted]
     name: Subash Runner Job

@@ -2,8 +2,7 @@ name: Build .NET App
 
 on:
   push:
-    branches:
-      - feature/devops-test
+    branches: [feature/devops-test]
   workflow_dispatch:
 
 jobs:
@@ -15,21 +14,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set PowerShell Execution Policy
-        shell: powershell
-        run: |
-          Set-ExecutionPolicy RemoteSigned -Scope Process -Force
+      - name: Create custom install directory
+        run: mkdir -p C:\dotnet-tools
 
-      - name: Setup .NET SDK
+      - name: Setup .NET SDK (custom path)
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'  # You can change this to match your project's SDK
+          dotnet-version: '8.0.x'
+          install-dir: C:\dotnet-tools
 
-      - name: Restore dependencies
+      - name: Add .NET tools to PATH
+        run: |
+          echo "C:\dotnet-tools" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Restore packages
         run: dotnet restore
 
-      - name: Build the project
+      - name: Build project
         run: dotnet build --configuration Release
 
-      - name: Run unit tests (if applicable)
+      - name: Run unit tests
         run: dotnet test --no-build --verbosity normal

@@ -2,21 +2,25 @@ name: Test Self-Hosted Runner
 
 on:
   workflow_dispatch:
- 
+
 jobs:
   self-hosted-job:
     runs-on: [self-hosted]
     name: Subash Runner Job
     steps:
-      - name: Confirm runner is working on Windows with policy update
+      - name: Set execution policy for session
         shell: powershell
         run: |
           try {
             Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force -ErrorAction Stop
-            Write-Host "Execution policy set successfully."
+            Write-Host "Execution policy set to RemoteSigned for this session."
           } catch {
             Write-Host "Failed to set execution policy. Error: $_"
           }
+
+      - name: Confirm runner is working
+        shell: powershell
+        run: |
           Write-Host "Hello from Subash's self-hosted runner!"
           Write-Host "Running as: $env:USERNAME"
           hostname

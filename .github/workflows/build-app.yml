@@ -1,0 +1,35 @@
+name: Build .NET App
+
+on:
+  push:
+    branches:
+      - feature/devops-test
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [self-hosted]
+    name: Build .NET Project on Subash Runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set PowerShell Execution Policy
+        shell: powershell
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope Process -Force
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'  # You can change this to match your project's SDK
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the project
+        run: dotnet build --configuration Release
+
+      - name: Run unit tests (if applicable)
+        run: dotnet test --no-build --verbosity normal

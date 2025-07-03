@@ -2,39 +2,29 @@ name: Build .NET App
 
 on:
   push:
-    branches: [feature/devops-test]
+    branches:
+      - feature/devops-test
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: [self-hosted]
-    name: Build .NET Project on Subash Runner
+    name: Build .NET Application
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Ensure custom .NET install directory exists
-        run: |
-          if (-not (Test-Path "C:\dotnet-tools")) {
-            New-Item -ItemType Directory -Path "C:\dotnet-tools"
-          }
-
-      - name: Setup .NET SDK (custom path)
-        uses: actions/setup-dotnet@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
-          install-dir: C:\dotnet-tools
+          dotnet-version: '7.0'
 
-      - name: Add .NET tools to PATH
-        run: |
-          "C:\dotnet-tools" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
-
-      - name: Restore NuGet packages
+      - name: Restore Dependencies
         run: dotnet restore
 
-      - name: Build project
-        run: dotnet build --configuration Release
+      - name: Build Application
+        run: dotnet build --configuration Release --no-restore
 
-      - name: Run unit tests
+      - name: Run Tests
         run: dotnet test --no-build --verbosity normal

@@ -14,8 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create custom install directory
-        run: mkdir -p C:\dotnet-tools
+      - name: Ensure custom install directory exists
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "C:\dotnet-tools")) {
+            New-Item -ItemType Directory -Path "C:\dotnet-tools"
+          }
 
       - name: Setup .NET SDK (custom path)
         uses: actions/setup-dotnet@v4
@@ -24,8 +28,9 @@ jobs:
           install-dir: C:\dotnet-tools
 
       - name: Add .NET tools to PATH
+        shell: pwsh
         run: |
-          echo "C:\dotnet-tools" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+          "C:\dotnet-tools" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
 
       - name: Restore packages
         run: dotnet restore

@@ -14,8 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Ensure custom install directory exists
-        shell: pwsh
+      - name: Ensure custom .NET install directory exists
         run: |
           if (-not (Test-Path "C:\dotnet-tools")) {
             New-Item -ItemType Directory -Path "C:\dotnet-tools"
@@ -28,11 +27,10 @@ jobs:
           install-dir: C:\dotnet-tools
 
       - name: Add .NET tools to PATH
-        shell: pwsh
         run: |
           "C:\dotnet-tools" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
 
-      - name: Restore packages
+      - name: Restore NuGet packages
         run: dotnet restore
 
       - name: Build project

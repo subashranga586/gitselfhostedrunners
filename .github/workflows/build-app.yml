@@ -3,7 +3,7 @@ name: Build .NET App
 on:
   push:
     branches:
-      - feature/devops-test
+      - feature/devops-test 
   workflow_dispatch:
 
 jobs:

@@ -8,7 +8,7 @@ jobs:
     runs-on: [self-hosted]
     name: Subash Runner Job
     steps:
-      - name: Set execution policy for session
+      - name: Set execution policy for session 
         shell: powershell
         run: |
           try {

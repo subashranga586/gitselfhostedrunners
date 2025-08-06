@@ -18,6 +18,10 @@ jobs:
         echo "Hello from Subash's self-hosted runner!"
         echo "Running as: $USER"
         hostname
+<<<<<<< HEAD
         echo " this practice is to test self-hosted runner in GitHub Actions"
         echo " this is my third change to test thrid commit""
+=======
+        date
+>>>>>>> d0f573a (my fist commit in git)
         date

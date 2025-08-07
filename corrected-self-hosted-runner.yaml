@@ -19,4 +19,5 @@ jobs:
         echo "Running as: $USER"
         hostname
         echo " this practice is to test self-hosted runner in GitHub Actions"
+        echo " this is my third change to test thrid commit""
         date
